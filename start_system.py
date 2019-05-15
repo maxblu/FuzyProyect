@@ -1,5 +1,6 @@
 from func_membre_and_inverse import *
 import math
+import matplotlib.pyplot as plt
 
 #Variables por ahora fija que definen los intervalos para 
 #La fusificacion de las variables de entrada
@@ -71,16 +72,40 @@ def start_washing_machine(pesoRopa,pH,tsukamoto):
     lenguisticas estan fijas con las variables arriba.
     """
     #Fusification proccess
-    gradoPertenciaRopa_peso_ligera=funcion_membrecia_trapezoidal_pertenencia(pesoRopaLigero_min,pesoRopaLigero_inflexion,
-                                                                        pesoRopaLigero_mayor,pesoRopa,0)
-    gradoPertenciaRopa_peso_medio=funcion_membrecia_triangular_pertenencia(pesoRopaMitad_mi,pesoRopaMitad_optimo,
-                                                                                pesoRopaMitad_mayor,pesoRopa)
-    gradoPertenciaRopa_peso_pesado=funcion_membrecia_trapezoidal_pertenencia(pesoRopaPesado_min,pesoRopaPesado_inflexion,
-                                                                            pesoRopaPesado_inflexion,pesoRopa,1)
+    valores_ropa =np.arange(0,15,1)
+    valores_pH =np.arange(0,15,1)
+    valores_detergente =np.arange(0,301,1)
+    valores_agua =np.arange(0,61,1)
 
-    gradoPertencia_pH_acido=funcion_membrecia_trapezoidal_pertenencia(phAguaAcido_min,phAguaAcido_inflexion,phAguaAcido_mayor,
-                                                                                    pH,0)
-    gradoPertencia_pH_neutral=funcion_membrecia_triangular_pertenencia(phAguaNeutro_min,phAguaNeutro_optimo,phAguaNeutro_mayor,
-                                                                        pH)
-    gradoPertencia_pH_basico=funcion_membrecia_trapezoidal_pertenencia(phAguaBasico_min,phAguaBasico_inflexion,phAguaBasico_mayor
-                                                    ,pH,1)
+    p1=funcion_membrecia_trapezoidal(valores_ropa,[pesoRopaLigero_min,pesoRopaLigero_inflexion,pesoRopaLigero_inflexion,
+                                                                        pesoRopaLigero_mayor])
+    p2=funcion_membrecia_triangular(valores_ropa,[pesoRopaMitad_mi,pesoRopaMitad_optimo,pesoRopaMitad_mayor])
+
+    p3=funcion_membrecia_trapezoidal(valores_ropa,[pesoRopaPesado_min,pesoRopaPesado_inflexion,
+                                                                            pesoRopaPesado_inflexion,pesoRopaPesado_mayor])
+
+    ph1=funcion_membrecia_trapezoidal(valores_pH,[phAguaAcido_min,phAguaAcido_inflexion,phAguaAcido_inflexion,phAguaAcido_mayor])
+    ph2=funcion_membrecia_triangular(valores_pH,[phAguaNeutro_min,phAguaNeutro_optimo,phAguaNeutro_mayor])
+    ph3=funcion_membrecia_trapezoidal(valores_pH,[phAguaBasico_min,phAguaBasico_inflexion,phAguaBasico_inflexion,phAguaBasico_mayor])
+
+    d1=funcion_membrecia_trapezoidal(valores_detergente,[cantDetergPoco_min,cantDetergPoco_inflexion,cantDetergPoco_inflexion,cantDetergPoco_mayor])
+    d2=funcion_membrecia_triangular(valores_detergente,[cantDetergMedia_min,cantDetergMedia_optimo,cantDetergMedia_mayor])
+    d3=funcion_membrecia_trapezoidal(valores_detergente,[cantDetergMucho_min,cantDetergMucho_inflexion,cantDetergMucho_inflexion,cantDetergMucho_mucho])
+
+    a1=funcion_membrecia_trapezoidal(valores_agua,[cantDeAguaPoca_min,cantDeAguaPoca_inflexion,cantDeAguaPoca_inflexion,cantDeAguaPoca_mayor])
+    a2=funcion_membrecia_triangular(valores_agua,[cantDeAguaMedia_min,cantDeAguaMedia_optimo,cantDeAguaMedia_mayor])
+    a3=funcion_membrecia_trapezoidal(valores_agua,[cantDeAguaMucha_min,cantDeAguaMucha_inflexion,cantDeAguaMucha_inflexion,cantDeAguaMucha_mayor])
+
+
+    #Grado de memebrecia de los valores de la entrada (Fuzification)
+    gradoPertenciaRopa_peso_ligera=membership(valores_ropa,p1,pesoRopa)
+    gradoPertenciaRopa_peso_medio=membership(valores_ropa,p2,pesoRopa)
+    gradoPertenciaRopa_peso_pesado=membership(valores_ropa,p3,pesoRopa)
+
+
+    gradoPertencia_pH_acido=membership(valores_pH,ph1,pH)
+    gradoPertencia_pH_neutral=membership(valores_pH,ph2,pH)
+    gradoPertencia_pH_basico=membership(valores_pH,ph2,pH)
+
+    #Ploteo de las funciones de membrecia
+    

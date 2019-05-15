@@ -105,7 +105,6 @@ def funcion_membrecia_triangular(x,abc):
     y : 1d array
         Triangular membership function.
     """
-    []
     assert len(abc) == 3, 'abc parameter must have exactly three elements.'
     a, b, c = np.r_[abc]     # Zero-indexing in Python
     assert a <= b and b <= c, 'abc requires the three elements a <= b <= c.'
@@ -149,10 +148,10 @@ def funcion_membrecia_trapezoidal(x, abcd):
     y = np.ones(len(x))
 
     idx = np.nonzero(x <= b)[0]
-    y[idx] = trimf(x[idx], np.r_[a, b, b])
+    y[idx] = funcion_membrecia_triangular(x[idx], np.r_[a, b, b])
 
     idx = np.nonzero(x >= c)[0]
-    y[idx] = trimf(x[idx], np.r_[c, c, d])
+    y[idx] = funcion_membrecia_triangular(x[idx], np.r_[c, c, d])
 
     idx = np.nonzero(x < a)[0]
     y[idx] = np.zeros(len(idx))
