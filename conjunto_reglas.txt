@@ -1,0 +1,22 @@
+
+En las tuplas el primer elemento se refiere a la cantidad de detergente y el segundo a la cant de agua.
+
+            peso_ligero     peso_medio      peso_pesado
+
+pH_acido    1(mucho,medio)   4(mucho,mucho)   7(mucho,mucho)
+
+pH_neutro   2(medio,poco)    5(medio,medio)   8(medio,mucho)
+
+pH_basico   3(poco,poco)     6(poco,medio)    9(poco,mucho)
+
+
+
+detergente   0 - 300 gramos
+          bajo  0 -100 trapecio
+          medio 90-220 triangular
+          mucho 200-300 trapecio
+
+cant_agua    0 - 60 litros
+            bajo  0 - 22 trapecio
+            medio 20 - 42 triangular
+            mucho 40 -60    trapecio

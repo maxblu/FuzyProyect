@@ -1,0 +1,2 @@
+Se quiere crear un controlador de lavadora que permita inferir el nivel de agua y la cantidad de detergente necesario para lavar la ropa dado su pH y el peso(Kg). Se conoce que mientras menor sea el pH(mas acido) mas sucia esta la ropa.
+
