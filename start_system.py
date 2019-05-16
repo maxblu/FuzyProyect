@@ -2,6 +2,7 @@ from func_membre_and_inverse import *
 import math
 import plot_membership
 import matplotlib.pyplot as plt
+from plot_agregations import plot_agregations
 
 #Variables por ahora fija que definen los intervalos para 
 #La fusificacion de las variables de entrada
@@ -179,7 +180,6 @@ def start_washing_machine(pesoRopa,pH,tsukamoto):
 
 
 
-
     #5
     antecedente5=min( gradoPertencia_pH_neutral,gradoPertenciaRopa_peso_medio)
     cantDetergMedia5=cantDeAguaMedia5=antecedente5
@@ -239,19 +239,35 @@ def start_washing_machine(pesoRopa,pH,tsukamoto):
 
     #Aplicando el valor al consecuente(Revisar aqui si me quedo con el min o el max)
     cantDeAguaPoca=max(cantDeAguaPoca2,cantDeAguaPoca3)
+    a1_activation=np.fmin(cantDeAguaPoca,a1)
+    
     cantDeAguaMedia=max(cantDeAguaMedia1,cantDeAguaMedia5,cantDeAguaMedia6)
+    a2_activation=np.fmin(cantDeAguaMedia,a2)
+
+
     cantDeAguaMucha=max(cantDeAguaMucha4,cantDeAguaMucha7,cantDeAguaMucha8,cantDeAguaMucha9)
+    a3_activation=np.fmin(cantDeAguaMucha,a3)
+
+
+    
+
+
+
+
+
+
 
     cantDetergPoco=max(cantDetergPoco3,cantDetergPoco6,cantDetergPoco9)
+
     cantDetergMedia=max(cantDetergMedia2,cantDetergMedia5,cantDeAguaMedia6,cantDetergMedia8)
     cantDetergMucha=max(cantDetergMucha1,cantDetergMucha4,cantDetergMucha7)
 
     print(tsukamoto_pairs_deter)
 
     print(tsukamoto_pairs_deter)
-    if tsukamoto:
-        print('Cantidad de detergente: ',tsukamoto_methot(tsukamoto_pairs_deter))
-        print('Cantidad de agua: ',tsukamoto_methot( tsukamoto_pairs_agua))
+    print('Aplicando Tsukamoto:')
+    print('Cantidad de detergente: ',tsukamoto_methot(tsukamoto_pairs_deter))
+    print('Cantidad de agua: ',tsukamoto_methot( tsukamoto_pairs_agua))
 
 
 
