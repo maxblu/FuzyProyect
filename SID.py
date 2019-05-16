@@ -227,15 +227,17 @@ def start_washing_machine(pesoRopa,pH,tsukamoto):
     cantDetergMucha=max(cantDetergMucha1,cantDetergMucha4,cantDetergMucha7)
 
     if tsukamoto:
-        print(tsukamoto_pairs_deter)
+        pass
+        # print(tsukamoto_pairs_deter)
 
-        print(tsukamoto_pairs_agua)
+        # print(tsukamoto_pairs_agua)
         
-        detergent_prdiction=tsukamoto_methot(tsukamoto_pairs_deter)
-        agua_prediction= tsukamoto_methot(tsukamoto_pairs_agua)
+        # detergent_prdiction=tsukamoto_methot(tsukamoto_pairs_deter)
+        # agua_prediction= tsukamoto_methot(tsukamoto_pairs_agua)
 
-        print('Cantidad de detergente '+ str(detergent_prdiction)+' gramos')
-        print('Cantidad de agua '+ str(agua_prediction)+" litros")
+        # print('Cantidad de detergente '+ str(detergent_prdiction)+' gramos')
+        # print('Cantidad de agua '+ str(agua_prediction)+" litros")
 
 if __name__ == "__main__":
-    start_washing_machine(10,5,True)
+    # start_washing_machine(10,5,True)
+    funcion_membrecia_trapezoidal_pertenencia_skfuzzy_inverse(0,1,1,3,3,0)

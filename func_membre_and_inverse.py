@@ -125,7 +125,7 @@ def funcion_membrecia_triangular(x,abc):
     y[idx] = 1
     return y
 
-def funcion_membrecia_trapezoidal(x, abcd):
+def funcion_membrecia_trapezoidal(x, abcd,tipo):
     """
     Trapezoidal membership function generator.
 
@@ -147,16 +147,38 @@ def funcion_membrecia_trapezoidal(x, abcd):
                                           a <= b <= c <= d.'
     y = np.ones(len(x))
 
-    idx = np.nonzero(x <= b)[0]
-    y[idx] = funcion_membrecia_triangular(x[idx], np.r_[a, b, b])
+    if tipo == 0:
+        idx = np.nonzero(x <= b)[0]
+        y[idx] = funcion_membrecia_triangular(x[idx], np.r_[a, b, b])
 
-    idx = np.nonzero(x >= c)[0]
-    y[idx] = funcion_membrecia_triangular(x[idx], np.r_[c, c, d])
+        idx = np.nonzero(x < a)[0]
+        y[idx] = np.zeros(len(idx))
 
-    idx = np.nonzero(x < a)[0]
-    y[idx] = np.zeros(len(idx))
+        idx = np.nonzero(x > d)[0]
+        y[idx] = np.zeros(len(idx))
+        
+    elif tipo == 1:
+        idx = np.nonzero(x >= c)[0]
+        y[idx] = funcion_membrecia_triangular(x[idx], np.r_[c, c, d])
 
-    idx = np.nonzero(x > d)[0]
-    y[idx] = np.zeros(len(idx))
+        idx = np.nonzero(x < a)[0]
+        y[idx] = np.zeros(len(idx))
+
+        idx = np.nonzero(x > d)[0]
+        y[idx] = np.zeros(len(idx))
+
+    else:
+        idx = np.nonzero(x <= b)[0]
+        y[idx] = funcion_membrecia_triangular(x[idx], np.r_[a, b, b])
+
+        idx = np.nonzero(x >= c)[0]
+        y[idx] = funcion_membrecia_triangular(x[idx], np.r_[c, c, d])
+
+        idx = np.nonzero(x < a)[0]
+        y[idx] = np.zeros(len(idx))
+
+        idx = np.nonzero(x > d)[0]
+        y[idx] = np.zeros(len(idx))
+
 
     return y
