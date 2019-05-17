@@ -25,7 +25,7 @@ def plot_agregations(valores,a1,a2,a3,a1_act,a2_act,a3_act,variable):
 
     plt.tight_layout()
 
-    plt.show()
+    plt.savefig('graficas/Resultado de la agregacion para '+ variable+'.png')
 
 def plot_results(valores,agregated,defuzz1,defuzz2,defuzz3,defuzz4,defuzz5,grade1,grade2,grade3,grade4,grade5,variable):
 
@@ -51,4 +51,4 @@ def plot_results(valores,agregated,defuzz1,defuzz2,defuzz3,defuzz4,defuzz5,grade
         ax.get_yaxis().tick_left()
 
     plt.tight_layout()
-    plt.show()
+    plt.savefig('Resultados de la  desdifuzyficacion para '+ variable+'.png')

@@ -38,5 +38,5 @@ def plot_funtions(xp,p1,p2,p3,xph,ph1,ph2,ph3,xd,d1,d2,d3,xa,a1,a2,a3):
         ax.get_yaxis().tick_left()
 
     plt.tight_layout()
-    plt.show()
+    plt.savefig('graficas/funciones de membrecia.png')
   
