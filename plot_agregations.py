@@ -51,4 +51,4 @@ def plot_results(valores,agregated,defuzz1,defuzz2,defuzz3,defuzz4,defuzz5,grade
         ax.get_yaxis().tick_left()
 
     plt.tight_layout()
-    plt.savefig('Resultados de la  desdifuzyficacion para '+ variable+'.png')
+    plt.savefig('graficas/Resultados de la  desdifuzyficacion para '+ variable+'.png')

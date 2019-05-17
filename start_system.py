@@ -55,6 +55,12 @@ cantDeAguaMucha_min = 40
 cantDeAguaMucha_inflexion=52
 cantDeAguaMucha_mayor=60
 
+max_peso=15
+max_ph=15
+max_agua=61
+max_detergent=301
+
+
 
 def tsukamoto_methot (wzis):
 
@@ -67,7 +73,7 @@ def tsukamoto_methot (wzis):
     return sum(products )/sum(wis)
 
 
-def start_washing_machine(pesoRopa,pH,tsukamoto):
+def start_washing_machine(pesoRopa,pH):
     """
     Este es el metodo principal para iniciar el sistema de inferencia
     dadas los paramentros de entrada.
@@ -75,10 +81,10 @@ def start_washing_machine(pesoRopa,pH,tsukamoto):
     lenguisticas estan fijas con las variables arriba.
     """
     #Fusification proccess
-    valores_ropa =np.arange(0,15,0.5)
-    valores_pH =np.arange(0,15,0.5)
-    valores_detergente =np.arange(0,301,0.5)
-    valores_agua =np.arange(0,61,0.5)
+    valores_ropa =np.arange(0,max_peso ,0.5)
+    valores_pH =np.arange(0,max_ph,0.5)
+    valores_detergente =np.arange(0,max_detergent,0.5)
+    valores_agua =np.arange(0,max_agua,0.5)
 
     p1=funcion_membrecia_trapezoidal(valores_ropa,[pesoRopaLigero_min,pesoRopaLigero_inflexion,pesoRopaLigero_inflexion,
                                                                         pesoRopaLigero_mayor],1)
@@ -408,5 +414,5 @@ def start_washing_machine(pesoRopa,pH,tsukamoto):
 if __name__ == "__main__":
         # start_washing_machine(5,7,True)
 
-        start_washing_machine(4.5,6.5,True)
+        start_washing_machine(4.5,6.5)
 

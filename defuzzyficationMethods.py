@@ -1,46 +1,34 @@
 import numpy as np
-import skfuzzy as fuzz
 
-fuzz.defuzzify.defuzz
+
 def defuzzify(x,mfx,mode):
 
     """
-    Defuzzification of a membership function, returning a defuzzified value
-    of the function at x, using various defuzzification methods.
+    Desdifuzificacion usando el modo selecionado.
 
     Parameters
     ----------
     x : 1d array or iterable, length N
-        Independent variable.
+        rango de valores de la variable.
     mfx : 1d array of iterable, length N
-        Fuzzy membership function.
+        funcion de membrecia.
     mode : string
-        Controls which defuzzification method will be used.
-        * 'centroid': Centroid of area
-        * 'bisector': bisector of area
-        * 'mom'     : mean of maximum
-        * 'som'     : min of maximum
-        * 'lom'     : max of maximum
-
+        Controla cual metodo de desdefusificacion se elige.
     Returns
     -------
     u : float or int
-        Defuzzified result.
+        Resultado desdifuzificado
 
-    See Also
-    --------
-    skfuzzy.defuzzify.centroid, skfuzzy.defuzzify.dcentroid
     """
     mode = mode.lower()
     x = x.ravel()
     mfx = mfx.ravel()
     n = len(x)
-    assert n == len(mfx), 'Length of x and fuzzy membership function must be \
-                          identical.'
+    assert n == len(mfx), 'La longitud de x y mfx debe ser la misma '
 
     if 'centroide' in mode or 'biseccion' in mode:
         zero_truth_degree = mfx.sum() == 0  # Approximation of total area
-        assert not zero_truth_degree, 'Total area is zero in defuzzification!'
+        assert not zero_truth_degree, 'Area total es cero luego de la desdefusificacion!'
 
         if 'centroide' in mode:
             return centroid(x, mfx)
@@ -65,29 +53,20 @@ def defuzzify(x,mfx,mode):
 
 def centroid(x, mfx):
     """
-    Defuzzification using centroid (`center of gravity`) method.
+    Desdifuzificacion usando centroide.
 
     Parameters
     ----------
     x : 1d array, length M
-        Independent variable
+        Rango de valoes de la funcion
     mfx : 1d array, length M
-        Fuzzy membership function
+        funcion de membrecia
 
     Returns
     -------
     u : 1d array, length M
-        Defuzzified result
-
-    See also
-    --------
-    skfuzzy.defuzzify.defuzz, skfuzzy.defuzzify.dcentroid
+        resultado desdefuzificado
     """
-
-    '''
-    As we suppose linearity between each pair of points of x, we can calculate
-    the exact area of the figure (a triangle or a rectangle).
-    '''
 
     sum_moment_area = 0.0
     sum_area = 0.0
@@ -127,28 +106,21 @@ def centroid(x, mfx):
 
 def bisector(x, mfx):
     """
-    Defuzzification using bisector, or division of the area in two equal parts.
+    Desdifuzificacion usando biseccion
 
     Parameters
     ----------
     x : 1d array, length M
-        Independent variable
+        rango de valores de la funcion mfx
     mfx : 1d array, length M
-        Fuzzy membership function
+        funcion de membrecia mfx
 
     Returns
     -------
     u : 1d array, length M
-        Defuzzified result
-
-    See also
-    --------
-    skfuzzy.defuzzify.defuzz
+        Resultdo desdifuzificado
     """
-    '''
-    As we suppose linearity between each pair of points of x, we can calculate
-    the exact area of the figure (a triangle or a rectangle).
-    '''
+
     sum_area = 0.0
     accum_area = [0.0] * (len(x) - 1)
 
