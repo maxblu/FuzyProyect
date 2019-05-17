@@ -3,6 +3,7 @@ import math
 import plot_membership
 import matplotlib.pyplot as plt
 from plot_agregations import plot_agregations
+from defuzzyficationMethods import defuzzify
 
 #Variables por ahora fija que definen los intervalos para 
 #La fusificacion de las variables de entrada
@@ -74,10 +75,10 @@ def start_washing_machine(pesoRopa,pH,tsukamoto):
     lenguisticas estan fijas con las variables arriba.
     """
     #Fusification proccess
-    valores_ropa =np.arange(0,15,1)
-    valores_pH =np.arange(0,15,1)
-    valores_detergente =np.arange(0,301,1)
-    valores_agua =np.arange(0,61,1)
+    valores_ropa =np.arange(0,15,0.5)
+    valores_pH =np.arange(0,15,0.5)
+    valores_detergente =np.arange(0,301,0.5)
+    valores_agua =np.arange(0,61,0.5)
 
     p1=funcion_membrecia_trapezoidal(valores_ropa,[pesoRopaLigero_min,pesoRopaLigero_inflexion,pesoRopaLigero_inflexion,
                                                                         pesoRopaLigero_mayor],1)
@@ -98,6 +99,7 @@ def start_washing_machine(pesoRopa,pH,tsukamoto):
     a2=funcion_membrecia_triangular(valores_agua,[cantDeAguaMedia_min,cantDeAguaMedia_optimo,cantDeAguaMedia_mayor])
     a3=funcion_membrecia_trapezoidal(valores_agua,[cantDeAguaMucha_min,cantDeAguaMucha_inflexion,cantDeAguaMucha_inflexion,cantDeAguaMucha_mayor],0)
 
+    print(a2)
 
     #Grado de memebrecia de los valores de la entrada (Fuzification)
     gradoPertenciaRopa_peso_ligera=membership(valores_ropa,p1,pesoRopa)
@@ -238,6 +240,7 @@ def start_washing_machine(pesoRopa,pH,tsukamoto):
     tsukamoto_pairs_agua.append((antecedente9,zi))
 
     #Aplicando el valor al consecuente(Revisar aqui si me quedo con el min o el max)
+    #activations no es mas que la funcion concecuente cortado por el valor logico de aplicar las reglas 
     cantDeAguaPoca=max(cantDeAguaPoca2,cantDeAguaPoca3)
     a1_activation=np.fmin(cantDeAguaPoca,a1)
     
@@ -249,22 +252,48 @@ def start_washing_machine(pesoRopa,pH,tsukamoto):
     a3_activation=np.fmin(cantDeAguaMucha,a3)
 
 
-    
-
-
-
-
-
-
 
     cantDetergPoco=max(cantDetergPoco3,cantDetergPoco6,cantDetergPoco9)
-
+    d1_activation=np.fmin(cantDetergPoco,d1)
+    
     cantDetergMedia=max(cantDetergMedia2,cantDetergMedia5,cantDeAguaMedia6,cantDetergMedia8)
+    d2_activation=np.fmin(cantDetergMedia,d2)
+
     cantDetergMucha=max(cantDetergMucha1,cantDetergMucha4,cantDetergMucha7)
+    d3_activation=np.fmin(cantDetergMucha,d3)
 
-    print(tsukamoto_pairs_deter)
+    #Agregaciones Mandami
+    plot_agregations(valores_agua,a1,a2,a3,a1_activation,a2_activation,a3_activation)
+    plot_agregations(valores_detergente,d1,d2,d3,d1_activation,d2_activation,d3_activation)
 
-    print(tsukamoto_pairs_deter)
+    #Funcion final de la agregacion para la defusification
+    cantDeterg_fun=np.fmax(d1_activation,np.fmax(d2_activation,d3_activation))
+    cantDeAgua_fun=np.fmax(a1_activation,np.fmax(a2_activation,a3_activation))
+
+    #Defuzification
+
+    print('Resultados usando centroide')
+    print('Cantidad de detergente: ',defuzzify(valores_detergente,cantDeterg_fun,'centroide'))
+    print('Cantidad de agua: ',defuzzify(valores_agua,cantDeAgua_fun,'centroide'))
+
+    print('\nResultados usando biseccion')
+    print('Cantidad de detergente: ',defuzzify(valores_detergente,cantDeterg_fun,'biseccion'))
+    print('Cantidad de agua: ',defuzzify(valores_agua,cantDeAgua_fun,'biseccion'))
+    
+    print('\nResultados usando maximo a la izquierda ')
+    print('Cantidad de detergente: ',defuzzify(valores_detergente,cantDeterg_fun,'mai'))
+    print('Cantidad de agua: ',defuzzify(valores_agua,cantDeAgua_fun,'mai'))
+    
+    print('\nResultados usando maximo a la derecha ')
+    print('Cantidad de detergente: ',defuzzify(valores_detergente,cantDeterg_fun,'mad'))
+    print('Cantidad de agua: ',defuzzify(valores_agua,cantDeAgua_fun,'mad'))
+    
+    print('\nResultados usando media de los maximos')
+    print('Cantidad de detergente: ',defuzzify(valores_detergente,cantDeterg_fun,'mdm'))
+    print('Cantidad de agua: ',defuzzify(valores_agua,cantDeAgua_fun,'mdm'))
+
+    
+
     print('Aplicando Tsukamoto:')
     print('Cantidad de detergente: ',tsukamoto_methot(tsukamoto_pairs_deter))
     print('Cantidad de agua: ',tsukamoto_methot( tsukamoto_pairs_agua))
@@ -274,5 +303,5 @@ def start_washing_machine(pesoRopa,pH,tsukamoto):
 if __name__ == "__main__":
         # start_washing_machine(5,7,True)
 
-        start_washing_machine(10,1,True)
+        start_washing_machine(4.5,6.5,True)
 
