@@ -2,7 +2,7 @@ from func_membre_and_inverse import *
 import math
 import plot_membership
 import matplotlib.pyplot as plt
-from plot_agregations import plot_agregations
+from plot_agregations import plot_agregations,plot_results
 from defuzzyficationMethods import defuzzify
 
 #Variables por ahora fija que definen los intervalos para 
@@ -263,35 +263,65 @@ def start_washing_machine(pesoRopa,pH,tsukamoto):
     d3_activation=np.fmin(cantDetergMucha,d3)
 
     #Agregaciones Mandami
-    plot_agregations(valores_agua,a1,a2,a3,a1_activation,a2_activation,a3_activation)
-    plot_agregations(valores_detergente,d1,d2,d3,d1_activation,d2_activation,d3_activation)
+    plot_agregations(valores_agua,a1,a2,a3,a1_activation,a2_activation,a3_activation,'detergente')
+    plot_agregations(valores_detergente,d1,d2,d3,d1_activation,d2_activation,d3_activation,'agua')
 
     #Funcion final de la agregacion para la defusification
     cantDeterg_fun=np.fmax(d1_activation,np.fmax(d2_activation,d3_activation))
     cantDeAgua_fun=np.fmax(a1_activation,np.fmax(a2_activation,a3_activation))
 
     #Defuzification
+    defuzz1=defuzzify(valores_detergente,cantDeterg_fun,'centroide')
+    defuzz2=defuzzify(valores_detergente,cantDeterg_fun,'biseccion')
+    defuzz3=defuzzify(valores_detergente,cantDeterg_fun,'mai')
+    defuzz4=defuzzify(valores_detergente,cantDeterg_fun,'mad')
+    defuzz5=defuzzify(valores_detergente,cantDeterg_fun,'mdm')
+
+    defuzz1a=defuzzify(valores_agua,cantDeAgua_fun,'centroide')
+    defuzz2a=defuzzify(valores_agua,cantDeAgua_fun,'biseccion')
+    defuzz3a=defuzzify(valores_agua,cantDeAgua_fun,'mai')
+    defuzz4a=defuzzify(valores_agua,cantDeAgua_fun,'mad')
+    defuzz5a=defuzzify(valores_agua,cantDeAgua_fun,'mdm')
+
+
 
     print('Resultados usando centroide')
-    print('Cantidad de detergente: ',defuzzify(valores_detergente,cantDeterg_fun,'centroide'))
-    print('Cantidad de agua: ',defuzzify(valores_agua,cantDeAgua_fun,'centroide'))
+    print('Cantidad de detergente: ',defuzz1)
+    print('Cantidad de agua: ',defuzz1a)
 
     print('\nResultados usando biseccion')
-    print('Cantidad de detergente: ',defuzzify(valores_detergente,cantDeterg_fun,'biseccion'))
-    print('Cantidad de agua: ',defuzzify(valores_agua,cantDeAgua_fun,'biseccion'))
+    print('Cantidad de detergente: ',defuzz2)
+    print('Cantidad de agua: ',defuzz2a)
     
     print('\nResultados usando maximo a la izquierda ')
-    print('Cantidad de detergente: ',defuzzify(valores_detergente,cantDeterg_fun,'mai'))
-    print('Cantidad de agua: ',defuzzify(valores_agua,cantDeAgua_fun,'mai'))
+    print('Cantidad de detergente: ',defuzz3)
+    print('Cantidad de agua: ',defuzz3a)
     
     print('\nResultados usando maximo a la derecha ')
-    print('Cantidad de detergente: ',defuzzify(valores_detergente,cantDeterg_fun,'mad'))
-    print('Cantidad de agua: ',defuzzify(valores_agua,cantDeAgua_fun,'mad'))
+    print('Cantidad de detergente: ',defuzz4)
+    print('Cantidad de agua: ',defuzz4a)
     
     print('\nResultados usando media de los maximos')
-    print('Cantidad de detergente: ',defuzzify(valores_detergente,cantDeterg_fun,'mdm'))
-    print('Cantidad de agua: ',defuzzify(valores_agua,cantDeAgua_fun,'mdm'))
+    print('Cantidad de detergente: ',defuzz5)
+    print('Cantidad de agua: ',defuzz5a)
 
+
+    grade1 = membership(valores_detergente, cantDeterg_fun, defuzz1)
+    grade2 = membership(valores_detergente, cantDeterg_fun, defuzz2)
+    grade3= membership(valores_detergente, cantDeterg_fun, defuzz3)
+    grade4= membership(valores_detergente, cantDeterg_fun, defuzz4)
+    grade5= membership(valores_detergente, cantDeterg_fun, defuzz5)
+
+    
+    gradea1 = membership(valores_agua,cantDeAgua_fun, defuzz1a)
+    gradea2 = membership(valores_agua,cantDeAgua_fun, defuzz2a)
+    gradea3= membership (valores_agua, cantDeAgua_fun, defuzz3a)
+    gradea4= membership (valores_agua, cantDeAgua_fun, defuzz4a)
+    gradea5= membership (valores_agua, cantDeAgua_fun, defuzz5a)
+
+    #plot results
+    plot_results(valores_detergente,cantDeterg_fun,defuzz1,defuzz2,defuzz3,defuzz4,defuzz5,grade1,grade2,grade3,grade4,grade5,'Detergente-Mandami')
+    plot_results(valores_agua,cantDeAgua_fun,defuzz1a,defuzz2a,defuzz3a,defuzz4a,defuzz5a,gradea1,gradea2,gradea3,gradea4,gradea5,'Agua-Mandami')
     
 
     print('Aplicando Tsukamoto:')
